@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from django.shortcuts import render
 
 # Create your views here.
 # https://zhuanlan.zhihu.com/p/50308750
@@ -15,3 +14,7 @@ from django.shortcuts import render
 
 def hello(request):
     return HttpResponse('Hello World')
+
+
+def msg(request, name):
+    return HttpResponse('name is {}'.format(name))
