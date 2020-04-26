@@ -11,11 +11,12 @@ class Category(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=100)
 
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField(max_length=100)
-    created_time = models.DateTimeField
-    modified_time = models.DateTimeField
+    created_time = models.DateTimeField()
+    modified_time = models.DateTimeField()
     # 文章摘要
     excerpt = models.CharField(max_length=100, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
