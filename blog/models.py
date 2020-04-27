@@ -37,7 +37,7 @@ class Post(models.Model):
         return self.title
 
     title = models.CharField('标题', max_length=100)
-    body = models.TextField('正文', max_length=100)
+    body = models.TextField('正文', max_length=100000)
     created_time = models.DateTimeField('创建时间', default=timezone.now)
     modified_time = models.DateTimeField('修改时间')
     # 文章摘要
