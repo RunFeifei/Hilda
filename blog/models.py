@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
 # Create your models here.
+from django.utils import timezone
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -34,12 +35,17 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    title = models.CharField(max_length=100)
-    body = models.TextField(max_length=100)
-    created_time = models.DateTimeField()
-    modified_time = models.DateTimeField()
+    title = models.CharField('标题', max_length=100)
+    body = models.TextField('正文', max_length=100)
+    created_time = models.DateTimeField('创建时间', default=timezone.now)
+    modified_time = models.DateTimeField('修改时间')
     # 文章摘要
-    excerpt = models.CharField(max_length=100, blank=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    excerpt = models.CharField('摘要', max_length=100, blank=True)
+    category = models.ForeignKey(Category, verbose_name='分类', on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
+    author = models.ForeignKey(User, verbose_name='作者', on_delete=models.CASCADE)
+
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #     self.modified_time = timezone.now()
+    #     super().save(self, force_insert, force_update, using, update_fields)
