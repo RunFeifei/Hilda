@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
 
-from blog.models import Post
+from blog.models import Post, Category, Tag
 
 
 def index(request):
@@ -14,6 +14,31 @@ def index(request):
     return render(request, 'blog/index.html', context={
         'post_list': post_list
     })
+
+
+def archives(request, year, month):
+    post_list = Post.objects.all().filter(created_time__year=year, created_time__month=month).order_by('-created_time')
+    return render(request, 'blog/index.html', context={
+        'post_list': post_list
+    })
+
+
+def category(request, pk):
+    cate = get_object_or_404(Category, pk=pk)
+    post_list = Post.objects.filter(category=cate).order_by('-created_time')
+    return render(request, 'blog/index.html', context={
+        'post_list': post_list
+    })
+
+
+def tag(request, pk):
+    tags = get_object_or_404(Tag, pk=pk)
+    post_list = Post.objects.filter(tags=tags).order_by('-created_time')
+    return render(request, 'blog/index.html', context={
+        'post_list': post_list
+    })
+
+
 
 
 def detail(request, pk):
