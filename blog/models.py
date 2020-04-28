@@ -1,9 +1,13 @@
+import markdown
 from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import strip_tags
+from django.utils.text import slugify
+from markdown.extensions.toc import TocExtension
 
 
 class Category(models.Model):
@@ -48,6 +52,13 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.modified_time = timezone.now()
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.fenced_code',
+            TocExtension(slugify=slugify)
+        ])
+        self.excerpt = strip_tags(md.convert(self.body))[:54]
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
