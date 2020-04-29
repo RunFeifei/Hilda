@@ -21,8 +21,9 @@ from app_demo import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^hello/$', views.hello),
+    path('', views.hello),
     url(r'^msg/(?P<name>\w+)/$', views.msg),
     path('', include('blog.urls')),
-    path('', include('comments.urls'))
+    path('', include('comments.urls')),
+    path('', include('polls.urls'))
 ]
