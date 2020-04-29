@@ -25,5 +25,5 @@ urlpatterns = [
     url(r'^msg/(?P<name>\w+)/$', views.msg),
     path('', include('blog.urls')),
     path('', include('comments.urls')),
-    path('', include('polls.urls'))
+    path('polls/', include('polls.urls'))
 ]
