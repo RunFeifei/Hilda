@@ -17,13 +17,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 
-from app_demo import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.hello),
-    url(r'^msg/(?P<name>\w+)/$', views.msg),
     path('', include('blog.urls')),
     path('', include('comments.urls')),
-    path('polls/', include('polls.urls'))
 ]
