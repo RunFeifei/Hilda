@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from datetime import timedelta
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -36,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',  # 认证应用
+    # https://zhuanlan.zhihu.com/p/58426061
+    # 'rest_framework.authtoken',  # 认证应用
     'blog.apps.BlogConfig',
     'comments.apps.CommentsConfig',
     'api.apps.ApiConfig',
@@ -120,12 +123,25 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# 配置DRF
+# 配置DRF and 默认token
 # https://zhuanlan.zhihu.com/p/58426061
+# REST_FRAMEWORK = {
+#     # 配置全局认证方式：使用token或session
+#     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',
+#                                        'rest_framework.authentication.SessionAuthentication',),
+#     # 配置全局权限限制方式：是否经过了认证
+#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+# }
+
+# 配置DRF and rest_framework_simplejwt
+# https://zhuanlan.zhihu.com/p/139086573
 REST_FRAMEWORK = {
-    # 配置全局认证方式：使用token或session
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',
-                                       'rest_framework.authentication.SessionAuthentication',),
-    # 配置全局权限限制方式：是否经过了认证
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # 设置token过期时间 登录接口带的token
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # 设置token过期时间 刷新token接口带的token
 }

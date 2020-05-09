@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 # https://zhuanlan.zhihu.com/p/58426061
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt import authentication
 
 from api.serializer import ApiUserSerializer
 
@@ -48,3 +49,12 @@ class LoginView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+
+class TestView(APIView):
+    name = 'test'
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = (authentication.JWTAuthentication,)
+
+    def get(self, request, *args, **kwargs):
+        return Response('ok')
