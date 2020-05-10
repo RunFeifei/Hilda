@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt import authentication
 
-from api.serializer import ApiUserSerializer
+from api.serializer import ApiUserSerializer, ApiUserSerializer2
 
 
 class UserCreate(generics.CreateAPIView):
@@ -23,7 +23,10 @@ class UserCreate(generics.CreateAPIView):
         return ()
 
     def get_serializer_class(self):
-        return ApiUserSerializer
+        # 默认的
+        # return ApiUserSerializer
+        # 新的
+        return ApiUserSerializer2
 
 
 class LoginView(APIView):
@@ -51,6 +54,7 @@ class LoginView(APIView):
             )
 
 
+# https://zhuanlan.zhihu.com/p/139086573
 class TestView(APIView):
     name = 'test'
     permission_classes = [permissions.IsAuthenticated]
